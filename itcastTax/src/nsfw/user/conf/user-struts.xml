@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<package name="user-action" namespace="/nsfw" extends="struts-default">
+		<action name="user_*" class="nsfw.user.action.UserAction" method="{1}">
+			<result name="{1}">/WEB-INF/jsp/nsfw/user/{1}.jsp</result>
+			<!-- 必须要另写一个result展示列表，因为有些方法操作返回结果为列表，而这些方法不一定直接是外部访问的
+			可能是从另一个方法跳过来的，所以必须再写一个result，上面的result只能生成从外部直接访问的方法要跳转的结果
+			 -->
+			<result name="list" type="redirectAction">
+				<param name="actionName">user_listUI</param>
+			</result>
+			
+		</action>
+	</package>
+
+</struts>

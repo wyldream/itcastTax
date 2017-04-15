@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="nsfw.role.entity.RolePrivilege" table="role_privilege">
+		<!-- 复合主键映射，主键是一个对象，复合主键中又包含了一个外键 -->
+		<composite-id name="id" class="nsfw.role.entity.RolePrivilegeId">
+			<!-- 复合主键映射里的一个属性又是多对一的关系
+			多对一三要素：名称、类别、外键字段
+			 -->
+			<key-many-to-one name="role" lazy="false" class="nsfw.role.entity.Role">
+				<column name="role_id"></column>
+			</key-many-to-one>
+			<!-- 对象里的普通属性用key-property -->
+			<key-property name="code" type="java.lang.String">
+				<column name="code" length="20"></column>
+			</key-property>
+		</composite-id>
+	</class>
+</hibernate-mapping>

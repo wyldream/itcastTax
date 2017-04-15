@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping><!-- 这里可以指定package，即下面所用的类所在的包名 -->
+	<class name="nsfw.role.entity.Role" table="role">
+		<id name="roleId" type="java.lang.String">
+			<column name="role_id" length="32"></column>
+			<generator class="uuid.hex"></generator>
+		</id>
+		<property name="name" type="java.lang.String">
+			<column name="name" length="20" not-null="true"></column>
+		</property>
+		<property name="state" type="java.lang.String">
+			<column name="state" length="1"></column>
+		</property>
+		<!-- 
+			一对多和多对一可以只配置一方
+			如果只配置一方，则配置了哪一方通过哪一方去维护
+			都配置了，则最好通过多的一方（即外键表的那一方）去维护，效率更高
+		 -->
+		<!-- 
+			set集合表
+			set的类型为普通类型时：
+			table属性对应的外键表(可写可不写)
+			key外键表中的外键字段
+			element是外键表中的普通字段
+			set类型为对象时要加入：
+			one-to-many属性，属性中class为类的完整路径
+			<one-to-many class="nsfw.role.entity.RolePrivilege"/>
+			
+			
+			list映射时，要增加一个list-index保存顺序（list集合是有序的）
+			
+			map集合映射
+			key外键表中的外键字段
+			map-key指定map的key
+			element 指定map的value
+			map在数据库中的形式就是两列，一列代表key，一列代表value
+		 -->
+		<set name="rolePrivilege" inverse="true" lazy="false" cascade="save-update,delete">
+			<key>
+				<column name="role_id"></column>
+			</key>
+			<one-to-many class="nsfw.role.entity.RolePrivilege"/>
+		</set>
+		<!-- 
+			多对一映射,名称，对应的外键字段，类型对应的类的全路径（就是把实体类对象类型和外键映射起来）
+ 			<many-to-one name="dept" column="dept_id" class=""></many-to-one>
+		 -->
+	</class>
+</hibernate-mapping>
